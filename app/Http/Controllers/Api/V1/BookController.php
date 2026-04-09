@@ -23,6 +23,24 @@ class BookController extends Controller
         $this->bookService = $bookService;
     }
 
+    /**
+     * @OA\Get(
+     *      path="/api/v1/books",
+     *      operationId="getBooksList",
+     *      tags={"Books"},
+     *      summary="Get list of books",
+     *      description="Returns list of books",
+     *      security={{ "bearerAuth": {} }},
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *     )
+     */
     public function index(Request $request): JsonResponse
     {
         $books = $this->bookService->getAllBooks($request->all());
@@ -33,6 +51,32 @@ class BookController extends Controller
         );
     }
 
+    /**
+     * @OA\Post(
+     *      path="/api/v1/books",
+     *      operationId="storeBook",
+     *      tags={"Books"},
+     *      summary="Store new book",
+     *      description="Returns book data",
+     *      security={{ "bearerAuth": {} }},
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(ref="#/components/schemas/StoreBookRequest")
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     * )
+     */
     public function store(StoreBookRequest $request): JsonResponse
     {
         $book = $this->bookService->createBook($request->validated());
@@ -44,6 +88,41 @@ class BookController extends Controller
         );
     }
 
+    /**
+     * @OA\Get(
+     *      path="/api/v1/books/{id}",
+     *      operationId="getBookById",
+     *      tags={"Books"},
+     *      summary="Get book information",
+     *      description="Returns book data",
+     *      security={{ "bearerAuth": {} }},
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Book id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      )
+     * )
+     */
     public function show(int $id): JsonResponse
     {
         $book = $this->bookService->getBookById($id);
@@ -54,6 +133,45 @@ class BookController extends Controller
         );
     }
 
+    /**
+     * @OA\Put(
+     *      path="/api/v1/books/{id}",
+     *      operationId="updateBook",
+     *      tags={"Books"},
+     *      summary="Update existing book",
+     *      description="Returns updated book data",
+     *      security={{ "bearerAuth": {} }},
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Book id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(ref="#/components/schemas/UpdateBookRequest")
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      )
+     * )
+     */
     public function update(UpdateBookRequest $request, int $id): JsonResponse
     {
         $book = $this->bookService->updateBook($id, $request->validated());
@@ -64,6 +182,37 @@ class BookController extends Controller
         );
     }
 
+    /**
+     * @OA\Delete(
+     *      path="/api/v1/books/{id}",
+     *      operationId="deleteBook",
+     *      tags={"Books"},
+     *      summary="Delete existing book",
+     *      description="Deletes a record and returns no content",
+     *      security={{ "bearerAuth": {} }},
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Book id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      )
+     * )
+     */
     public function destroy(int $id): JsonResponse
     {
         $this->bookService->deleteBook($id);

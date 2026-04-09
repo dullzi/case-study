@@ -4,11 +4,26 @@ namespace App\Http\Requests\Book;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @OA\Schema(
+ *      title="Update Book Request",
+ *      description="Update Book request body data",
+ *      type="object"
+ * )
+ */
 class UpdateBookRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * @OA\Property(
+     *      title="title",
+     *      description="Title of the book",
+     *      example="The Great Gatsby (Updated)"
+     * )
+     *
+     * @var string
      */
+    public $title;
+
     public function authorize(): bool
     {
         return true;
