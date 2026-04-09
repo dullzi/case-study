@@ -99,3 +99,6 @@ Access the Swagger UI documentation at:
 To regenerate docs after changing annotations:
 ```bash
 php artisan l5-swagger:generate
+
+## POSTMAN
+Link : https://dul-2365939.postman.co/workspace/Melidul~1fdb021a-51f1-4212-94da-25d67ac728e3/collection/undefined?action=share&creator=45439220
